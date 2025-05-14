@@ -2,7 +2,7 @@
 
 Current Plan - 4 positional ML models
 
-RB model:
+RB/FB model:
 - rush attempts per game
 - rush yards per game
 - rush tds per game
