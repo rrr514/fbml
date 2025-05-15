@@ -1,6 +1,6 @@
 import pandas as pd
 
-df = pd.read_csv('2023playerstats.csv')
+df = pd.read_csv('2024playerstats.csv')
 
 
 # Remove the first column
@@ -53,8 +53,8 @@ dfs['RB_FB'] = pd.concat(dfs['RB_FB'], ignore_index=True)
 
 # Convert data frames to csvs
 for pos, subdf in dfs.items():
-    subdf.to_csv(f'2023playerstats_{pos}.csv', index=False)
-    print(f"Data preprocessing complete. Processed data saved to '2023playerstats_{pos}.csv'.")
+    subdf.to_csv(f'2024playerstats_{pos}.csv', index=False)
+    print(f"Data preprocessing complete. Processed data saved to '2024playerstats_{pos}.csv'.")
 
 # Convert data frame to csv
 # df.to_csv('2023playerstats_processed.csv', index=False)
