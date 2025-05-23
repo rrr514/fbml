@@ -39,6 +39,15 @@ for i, player in enumerate(df['Player']):
 # One hot encode the 'Team' column
 df = pd.get_dummies(df, columns=['Team'], prefix='Team', drop_first=True)
 
+# Replace NAN in FantasyPts
+df['FantasyPts'] = df['FantasyPts'].fillna(0)
+# Replace NAN in FantasyPtrPPR
+df['FantasyPtsPPR'] = df['FantasyPtsPPR'].fillna(0)
+# Replace NAN in FantasyPtsDraftKings
+df['FantasyPtsDraftKings'] = df['FantasyPtsDraftKings'].fillna(0)
+# Replace NAN in FantasyPtsFanDuel
+df['FantasyPtsFanDuel'] = df['FantasyPtsFanDuel'].fillna(0)
+
 
 # Split data frame into 4 sub data frames basd on position
 dfs = {}
@@ -55,7 +64,3 @@ dfs['RB_FB'] = pd.concat(dfs['RB_FB'], ignore_index=True)
 for pos, subdf in dfs.items():
     subdf.to_csv(f'2024playerstats_{pos}.csv', index=False)
     print(f"Data preprocessing complete. Processed data saved to '2024playerstats_{pos}.csv'.")
-
-# Convert data frame to csv
-# df.to_csv('2023playerstats_processed.csv', index=False)
-# print("Data preprocessing complete. Processed data saved to '2023playerstats_processed.csv'.")

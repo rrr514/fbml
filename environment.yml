@@ -1,0 +1,9 @@
+name: fb
+channels:
+  - https://repo.anaconda.com/pkgs/main
+  - https://repo.anaconda.com/pkgs/r
+dependencies:
+  - anaconda
+  - python=3.13.2
+  - nb_conda_kernels
+prefix: /Users/rrr/miniconda3/envs/fb
