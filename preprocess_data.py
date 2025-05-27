@@ -1,6 +1,15 @@
 import pandas as pd
+import argparse
 
-df = pd.read_csv('2024playerstats.csv')
+# Command-line argument parsing
+parser = argparse.ArgumentParser(description="Preprocess fantasy football stats by year")
+parser.add_argument("--year", type=int, required=True, help="Season year to process")
+
+args = parser.parse_args()
+
+year = args.year
+csv = f'{year}playerstats.csv'
+df = pd.read_csv(csv)
 
 
 # Remove the first column
@@ -62,5 +71,5 @@ dfs['RB_FB'] = pd.concat(dfs['RB_FB'], ignore_index=True)
 
 # Convert data frames to csvs
 for pos, subdf in dfs.items():
-    subdf.to_csv(f'2024playerstats_{pos}.csv', index=False)
-    print(f"Data preprocessing complete. Processed data saved to '2024playerstats_{pos}.csv'.")
+    subdf.to_csv(f'{year}playerstats_{pos}.csv', index=False)
+    print(f"Data preprocessing complete. Processed data saved to '{year}playerstats_{pos}.csv'.")
