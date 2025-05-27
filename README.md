@@ -30,3 +30,8 @@ QB model:
 - interceptions per game
 - rush yds per game
 - rush tds per game
+
+Benchmark Metrics:
+- R² at least 0.3–0.5
+- RMSE between 40-60
+- MAE between 30-50
