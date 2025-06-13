@@ -3,6 +3,68 @@ from bs4 import BeautifulSoup
 import pandas as pd
 import argparse
 import time
+from enum import Enum
+
+
+class Position(Enum):
+    QB = "passing"
+    RB = "rushing"
+    FB = "rushing"
+    WR = "receiving"
+    TE = "receiving"
+
+def extract_college_position_stats(soup, url, college_career_stats, pos):
+    # Extract passing stats
+    pos = pos.value
+    found_stats = True
+    table = soup.find('table', id=pos+'_standard')
+    if not table:
+        # print(f"Could not find", pos + f"_standard table at {url}")
+        found_stats = False
+    else:    
+        tfoot = table.find('tfoot')
+        if not tfoot:
+            # print(f"Could not find tfoot in", pos + f"_standard table at {url}")
+            found_stats = False
+        else: 
+            career_row = None
+            career_row_id = f"{table.get('id', pos+'_standard')}.Career"
+            career_row = tfoot.find('tr', id=career_row_id)
+
+            if not career_row:
+                print("Manual search for", pos, "career row")
+                for row_in_footer in tfoot.find_all('tr'):
+                    first_header_cell = row_in_footer.find('th')
+                    if first_header_cell and 'Career' in first_header_cell.get_text(strip=True):
+                        career_row = row_in_footer
+                        break
+            
+            if not career_row:
+                # print(f"Could not find", pos + f"_table Career row in table footer at {url}")
+                found_stats = False
+    
+    if(found_stats is True):
+        # Extract all data-stat attributes from the pos career row
+        non_data_labels = ["year_id", "pos" , "awards"]
+        for cell in career_row.find_all(['th', 'td']):
+            if cell.has_attr('data-stat'):
+                stat_label = cell['data-stat']
+                stat_value = cell.get_text(strip = True)
+
+                # Skip all non data labels
+                if stat_label in non_data_labels: 
+                    continue
+                
+                # Attempt to cast stat_value to a float
+                try:
+                    stat_value = float(stat_value)
+                except ValueError:
+                    print("ValueError in extract_college_position_stats() when trying to cast attribute", stat_label, "with value", stat_value, "to a float. Setting value to pd.NA")
+                    stat_value = pd.NA
+                
+                column_name = f"Coll_{stat_label}"
+                college_career_stats[column_name] = stat_value
+
 
 def extract_college_career_stats(url):
     if not url or not isinstance(url, str) or not url.startswith('http'):
@@ -14,84 +76,12 @@ def extract_college_career_stats(url):
     html = urlopen(url)
     soup = BeautifulSoup(html, features="lxml")
 
-    # Extract passing stats
-    found_passing_stats = True
-    passing_table = soup.find('table', id='passing_standard')
-    if not passing_table:
-        print(f"Could not find passing_standard table at {url}")
-        found_passing_stats = False
-    else:    
-        tfoot = passing_table.find('tfoot')
-        if not tfoot:
-            print(f"Could not find tfoot in passing_standard table at {url}")
-            found_passing_stats = False
-        else: 
-            career_row = None
-            career_row_id = f"{passing_table.get('id', 'passing_standard')}.Career"
-            career_row = tfoot.find('tr', id=career_row_id)
-
-            if not career_row:
-                print("Manual search for passing career row")
-                for row_in_footer in tfoot.find_all('tr'):
-                    first_header_cell = row_in_footer.find('th')
-                    if first_header_cell and 'Career' in first_header_cell.get_text(strip=True):
-                        career_row = row_in_footer
-                        break
-            
-            if not career_row:
-                print(f"Could not find passing_table Career row in table footer at {url}")
-                found_passing_stats = False
-    
-    if(found_passing_stats is True):
-        # Extract all data-stat attributes from the passing career row
-        for cell in career_row.find_all(['th', 'td']):
-            if cell.has_attr('data-stat'):
-                stat_label = cell['data-stat']
-                stat_value = cell.get_text(strip = True)
-                column_name = f"Coll_{stat_label}"
-                college_career_stats[column_name] = stat_value
-
-    # Extract rushing/recieving stats
-    found_rushing_recieving_stats = True
-    rush_receive_table = soup.find('table', id='rushing_standard')
-    if not rush_receive_table: 
-        rush_receive_table = soup.find('table', id='receiving_standard')
-
-    if not rush_receive_table:
-        print(f"Could not find rush/recieve table at {url}")
-        found_rushing_recieving_stats = False
-    else:
-        tfoot = rush_receive_table.find('tfoot')
-        if not tfoot:
-            print(f"Could not find tfoot in rush/recieve table at {url}")
-            found_rushing_recieving_stats = False
-        else:
-            career_row = None
-            career_row_id = f"{rush_receive_table.get('id', 'rushing_standard')}.Career"
-            career_row = tfoot.find('tr', id=career_row_id)
-
-            if not career_row:
-                print("Manual search for rush/receive career row")
-                for row_in_footer in tfoot.find_all('tr'):
-                    first_header_cell = row_in_footer.find('th')
-                    if first_header_cell and 'Career' in first_header_cell.get_text(strip=True):
-                        career_row = row_in_footer
-                        break
-
-            if not career_row:
-                print(f"Could not find rush/receieve career row in {url}")
-                found_rushing_recieving_stats = False
-                
-    if(found_rushing_recieving_stats is True):
-        # Extract all data_stat attributes from the rush/receive career row
-        for cell in career_row.find_all(['th', 'td']):
-            if cell.has_attr('data-stat'):
-                stat_label = cell['data-stat']
-                stat_value = cell.get_text(strip=True)
-                column_name = f"Coll_{stat_label}"
-                college_career_stats[column_name] = stat_value
+    extract_college_position_stats(soup, url, college_career_stats, Position.QB)
+    extract_college_position_stats(soup, url, college_career_stats, Position.RB)
+    extract_college_position_stats(soup, url, college_career_stats, Position.WR)
      
     return college_career_stats
+
 
 
 
