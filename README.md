@@ -35,3 +35,13 @@ Benchmark Metrics:
 - R² at least 0.3–0.5
 - RMSE between 40-60
 - MAE between 30-50
+
+Rookie QB Model:
+- Games Played
+- Completion Percentage
+- pass attempts per game
+- passing yds per game
+- passing tds per game
+- interceptions per game
+- rush yds per game
+- rush tds per game
