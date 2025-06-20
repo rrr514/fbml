@@ -59,3 +59,12 @@ def append_total_fantasy_points(df, season_df):
     )
     df_merged['FantasyPtsPPR'] = df_merged['FantasyPtsPPR'].fillna(0)
     return df_merged
+
+
+def print_diagnostics(X_train, X_test, features, y_train, y_test):
+    print(f"Training samples: {len(X_train)}")
+    print(f"Testing samples: {len(X_test)}")
+    print(f"Features: {len(features)}")
+    print(f"Samples per feature: {len(X_train) / len(features):.1f}")
+    print(f"Training target stats: mean={y_train.mean():.1f}, std={y_train.std():.1f}")
+    print(f"Testing target stats: mean={y_test.mean():.1f}, std={y_test.std():.1f}")
