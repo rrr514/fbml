@@ -58,7 +58,7 @@ df['FantasyPtsDraftKings'] = df['FantasyPtsDraftKings'].fillna(0)
 df['FantasyPtsFanDuel'] = df['FantasyPtsFanDuel'].fillna(0)
 
 
-# Split data frame into 4 sub data frames basd on position
+# Split data frame into 4 sub data frames based on position
 dfs = {}
 for pos, subdf in df.groupby('FantPos'):
     # Considering FBs and RBs as the same position

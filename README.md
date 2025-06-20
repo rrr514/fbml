@@ -45,3 +45,8 @@ Rookie QB Model:
 - interceptions per game
 - rush yds per game
 - rush tds per game
+
+
+# TODO List:
+- fix rookie qb model overfitting
+- eventually add more training data for all models
