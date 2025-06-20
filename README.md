@@ -46,7 +46,16 @@ Rookie QB Model:
 - rush yds per game
 - rush tds per game
 
+Rookie RB/FB Model:
+- Games Played
+- rush attempts per game
+- rush yards per game
+- rush tds per game
+- recs per game
+- rec yards per game
+- rec tds per game
+
 
 # TODO List:
-- fix rookie qb model overfitting
+- fix rookie qb model overfitting (fixing all rookie models in general lol)
 - eventually add more training data for all models
