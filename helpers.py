@@ -24,6 +24,7 @@ def compute_rank_squared_error(results):
 
     return rank_squared_error
 
+
 def evaluate_model(y_train, train_preds, y_test, test_preds):
     """
     Evaluate a model's performance on training and test data.
@@ -42,8 +43,19 @@ def evaluate_model(y_train, train_preds, y_test, test_preds):
     print("Testing R^2:", r2_score(y_test, test_preds))
     print("Testing MAE:", mean_absolute_error(y_test, test_preds))
 
+
 def print_model_coefficients(model, features):
     print("Intercept:", model.intercept_)
     print("Feature Coefficients:")
     for feat, coef in zip(features, model.coef_):
         print(f"{feat}: {coef:.4f}")
+
+
+def append_total_fantasy_points(df, season_df):
+    df_merged = df.merge(
+        season_df[['Player', 'FantasyPtsPPR']],
+        on='Player',
+        how='left'
+    )
+    df_merged['FantasyPtsPPR'] = df_merged['FantasyPtsPPR'].fillna(0)
+    return df_merged
