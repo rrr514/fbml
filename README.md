@@ -39,22 +39,15 @@ Benchmark Metrics:
 Rookie QB Model:
 - Games Played
 - Completion Percentage
-- pass attempts per game
 - passing yds per game
 - passing tds per game
 - interceptions per game
-- rush yds per game
-- rush tds per game
 
 Rookie RB/FB Model:
 - Games Played
 - rush attempts per game
 - rush yards per game
 - rush tds per game
-- recs per game
-- rec yards per game
-- rec tds per game
-
 
 # TODO List:
 - fix rookie qb model overfitting (fixing all rookie models in general lol)
