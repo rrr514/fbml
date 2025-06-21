@@ -4,6 +4,7 @@ import pandas as pd
 import argparse
 import time
 from enum import Enum
+import os
 
 
 class Position(Enum):
@@ -140,7 +141,8 @@ for index, player_data_row in stats.iterrows():
     
     time.sleep(10)
 
-stats.to_csv(f"{year}rookiestats.csv")
+filepath = os.path.join('data', f"{year}rookiestats.csv")
+stats.to_csv(filepath)
 
 print(f"Rookie data for the year {year} has been created.")
 
