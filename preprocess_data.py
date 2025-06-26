@@ -1,6 +1,7 @@
 import pandas as pd
 import argparse
 import os
+import sys
 
 # Command-line argument parsing
 parser = argparse.ArgumentParser(description="Preprocess fantasy football stats by year")
@@ -10,6 +11,12 @@ args = parser.parse_args()
 
 year = args.year
 csv = os.path.join('data', f'{year}playerstats.csv')
+
+if not os.path.exists(csv):
+    print(f"Error: Input file not found at '{csv}'")
+    print("Please make sure that you have scraped the data before preprocessing it")
+    sys.exit(1)
+
 df = pd.read_csv(csv)
 
 

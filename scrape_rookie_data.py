@@ -141,6 +141,7 @@ for index, player_data_row in stats.iterrows():
     
     time.sleep(10)
 
+os.makedirs('data', exist_ok=True)
 filepath = os.path.join('data', f"{year}rookiestats.csv")
 stats.to_csv(filepath)
 
