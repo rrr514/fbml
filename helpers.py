@@ -68,3 +68,141 @@ def print_diagnostics(X_train, X_test, features, y_train, y_test):
     print(f"Samples per feature: {len(X_train) / len(features):.1f}")
     print(f"Training target stats: mean={y_train.mean():.1f}, std={y_train.std():.1f}")
     print(f"Testing target stats: mean={y_test.mean():.1f}, std={y_test.std():.1f}")
+
+
+def compute_qb_features(df):
+    # Compute the features needed
+    df['PassAttPerGame'] = df['PassAtt'] / df['GamesPlayed'].replace(0, pd.NA)
+    df['PassAttPerGame'] = df['PassAttPerGame'].fillna(0)
+
+    df['PassYdsPerGame'] = df['PassYds'] / df['GamesPlayed'].replace(0, pd.NA)
+    df['PassYdsPerGame'] = df['PassYdsPerGame'].fillna(0)
+
+    df['PassTDsPerGame'] = df['PassTD'] / df['GamesPlayed'].replace(0, pd.NA)
+    df['PassTDsPerGame'] = df['PassTDsPerGame'].fillna(0)
+
+    df['PassIntPerGame'] = df['PassInt'] / df['GamesPlayed'].replace(0, pd.NA)
+    df['PassIntPerGame'] = df['PassIntPerGame'].fillna(0)
+
+    df['RushYdsPerGame'] = df['RushYds'] / df['GamesPlayed'].replace(0, pd.NA)
+    df['RushYdsPerGame'] = df['RushYdsPerGame'].fillna(0)
+
+    df['RushTDsPerGame'] = df['RushTD'] / df['GamesPlayed'].replace(0, pd.NA)
+    df['RushTDsPerGame'] = df['RushTDsPerGame'].fillna(0)
+
+
+def compute_rb_fb_features(df):
+    df['RushAttPerGame'] = df['RushAtt'] / df['GamesPlayed'].replace(0, pd.NA)
+    df['RushAttPerGame'] = df['RushAttPerGame'].fillna(0)
+
+    df['RushYdsPerGame'] = df['RushYds'] / df['GamesPlayed'].replace(0, pd.NA)
+    df['RushYdsPerGame'] = df['RushYdsPerGame'].fillna(0)
+
+    df['RushTDsPerGame'] = df['RushTD'] / df['GamesPlayed'].replace(0, pd.NA)
+    df['RushTDsPerGame'] = df['RushTDsPerGame'].fillna(0)
+
+    df['TargetsPerGame'] = df['Targets'] / df['GamesPlayed'].replace(0, pd.NA)
+    df['TargetsPerGame'] = df['TargetsPerGame'].fillna(0)
+
+    df['RecsPerGame'] = df['Receptions'] / df['GamesPlayed'].replace(0, pd.NA)
+    df['RecsPerGame'] = df['RecsPerGame'].fillna(0)
+
+    df['RecYdsPerGame'] = df['RecYds'] / df['GamesPlayed'].replace(0, pd.NA)
+    df['RecYdsPerGame'] = df['RecYdsPerGame'].fillna(0)
+
+    df['RecTDsPerGame'] = df['RecTD'] / df['GamesPlayed'].replace(0, pd.NA)
+    df['RecTDsPerGame'] = df['RecTDsPerGame'].fillna(0)
+
+
+def compute_te_features(df):
+    df['TargetsPerGame'] = df['Targets'] / df['GamesPlayed'].replace(0, pd.NA)
+    df['TargetsPerGame'] = df['TargetsPerGame'].fillna(0)
+
+    df['RecsPerGame'] = df['Receptions'] / df['GamesPlayed'].replace(0, pd.NA)
+    df['RecsPerGame'] = df['RecsPerGame'].fillna(0)
+
+    df['RecYdsPerGame'] = df['RecYds'] / df['GamesPlayed'].replace(0, pd.NA)
+    df['RecYdsPerGame'] = df['RecYdsPerGame'].fillna(0)
+
+    df['RecTDsPerGame'] = df['RecTD'] / df['GamesPlayed'].replace(0, pd.NA)
+    df['RecTDsPerGame'] = df['RecTDsPerGame'].fillna(0)
+
+
+def compute_wr_features(df):
+    df['TargetsPerGame'] = df['Targets'] / df['GamesPlayed'].replace(0, pd.NA)
+    df['TargetsPerGame'] = pd.to_numeric(df['TargetsPerGame'], errors='coerce').fillna(0)
+
+    df['RecsPerGame'] = df['Receptions'] / df['GamesPlayed'].replace(0, pd.NA)
+    df['RecsPerGame'] = pd.to_numeric(df['RecsPerGame'], errors='coerce').fillna(0)
+
+    df['RecYdsPerGame'] = df['RecYds'] / df['GamesPlayed'].replace(0, pd.NA)
+    df['RecYdsPerGame'] = pd.to_numeric(df['RecYdsPerGame'], errors='coerce').fillna(0)
+
+    df['RecTDsPerGame'] = df['RecTD'] / df['GamesPlayed'].replace(0, pd.NA)
+    df['RecTDsPerGame'] = pd.to_numeric(df['RecTDsPerGame'], errors='coerce').fillna(0)
+
+
+def compute_rookie_qb_features(df):
+    df['GamesPlayed'] = df['Coll_games'].fillna(0)
+
+    df['CompletionPct'] = df['Coll_pass_cmp_pct'].fillna(0)
+    
+    df['PassAttPerGame'] = df['Coll_pass_att'] / df['Coll_games'].replace(0, pd.NA)
+    df['PassAttPerGame'] = df['PassAttPerGame'].fillna(0)
+
+    df['PassYdsPerGame'] = df['Coll_pass_yds_per_g'].fillna(0)
+
+    df['PassTDsPerGame'] = df['Coll_pass_td'] / df['Coll_games'].replace(0, pd.NA)
+    df['PassTDsPerGame'] = df['PassTDsPerGame'].fillna(0)
+
+    df['PassIntPerGame'] = df['Coll_pass_int'] / df['Coll_games'].replace(0, pd.NA)
+    df['PassIntPerGame'] = df['PassIntPerGame'].fillna(0)
+
+    df['RushYdsPerGame'] = df['Coll_rush_yds_per_g'].fillna(0)
+
+    df['RushTDsPerGame'] = df['Coll_rush_td'] / df['Coll_games'].replace(0, pd.NA)
+    df['RushTDsPerGame'] = df['RushTDsPerGame'].fillna(0)
+
+
+def compute_rookie_rb_fb_features(df):
+    df['GamesPlayed'] = df['Coll_games'].fillna(0)
+
+    df['RushAttPerGame'] = df['Coll_rush_att'] / df['Coll_games'].replace(0, pd.NA)
+    df['RushAttPerGame'] = df['RushAttPerGame'].fillna(0)
+
+    df['RushYdsPerGame'] = df['Coll_rush_yds_per_g'].fillna(0)
+
+    df['RushTDsPerGame'] = df['Coll_rush_td'] / df['Coll_games'].replace(0, pd.NA)
+    df['RushTDsPerGame'] = df['RushTDsPerGame'].fillna(0)
+
+    df['RecsPerGame'] = df['Coll_rec'] / df['Coll_games'].replace(0, pd.NA)
+    df['RecsPerGame'] = df['RecsPerGame'].fillna(0)
+
+    df['RecYdsPerGame'] = df['Coll_rec_yds_per_g'].fillna(0)
+
+    df['RecTDsPerGame'] = df['Coll_rec_td'] / df['Coll_games'].replace(0, pd.NA)
+    df['RecTDsPerGame'] = df['RecTDsPerGame'].fillna(0)
+
+
+def compute_rookie_te_features(df):
+    df['GamesPlayed'] = df['Coll_games'].fillna(0)
+
+    df['RecsPerGame'] = df['Coll_rec'] / df['Coll_games'].replace(0, pd.NA)
+    df['RecsPerGame'] = df['RecsPerGame'].fillna(0)
+
+    df['RecYdsPerGame'] = df['Coll_rec_yds_per_g'].fillna(0)
+
+    df['RecTDsPerGame'] = df['Coll_rec_td'] / df['Coll_games'].replace(0, pd.NA)
+    df['RecTDsPerGame'] = df['RecTDsPerGame'].fillna(0)
+
+
+def compute_rookie_wr_features(df):
+    df['GamesPlayed'] = df['Coll_games'].fillna(0)
+
+    df['RecsPerGame'] = df['Coll_rec'] / df['Coll_games'].replace(0, pd.NA)
+    df['RecsPerGame'] = df['RecsPerGame'].fillna(0)
+
+    df['RecYdsPerGame'] = df['Coll_rec_yds_per_g'].fillna(0)
+
+    df['RecTDsPerGame'] = df['Coll_rec_td'] / df['Coll_games'].replace(0, pd.NA)
+    df['RecTDsPerGame'] = df['RecTDsPerGame'].fillna(0)
