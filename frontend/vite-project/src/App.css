@@ -1,42 +1,107 @@
+/* General App Styling */
+:root {
+	font-family: Inter, system-ui, Avenir, Helvetica, Arial, sans-serif;
+	line-height: 1.5;
+	font-weight: 400;
+
+	color-scheme: light dark;
+	color: rgba(255, 255, 255, 0.87);
+	background-color: #242424;
+
+	font-synthesis: none;
+	text-rendering: optimizeLegibility;
+	-webkit-font-smoothing: antialiased;
+	-moz-osx-font-smoothing: grayscale;
+}
+
+body {
+	margin: 0;
+	display: flex;
+	place-items: center;
+	min-width: 320px;
+	min-height: 100vh;
+}
+
 #root {
-  max-width: 1280px;
-  margin: 0 auto;
-  padding: 2rem;
-  text-align: center;
+	max-width: 1280px;
+	margin: 0 auto;
+	padding: 2rem;
+	text-align: center;
 }
 
-.logo {
-  height: 6em;
-  padding: 1.5em;
-  will-change: filter;
-  transition: filter 300ms;
-}
-.logo:hover {
-  filter: drop-shadow(0 0 2em #646cffaa);
-}
-.logo.react:hover {
-  filter: drop-shadow(0 0 2em #61dafbaa);
+/* App Container */
+.App {
+	width: 100%;
+	max-width: 900px; /* Increased width for better table layout */
+	margin: 2rem auto;
+	padding: 2rem;
+	background-color: #2f2f2f;
+	border-radius: 8px;
+	box-shadow: 0 4px 8px rgba(0, 0, 0, 0.2);
 }
 
-@keyframes logo-spin {
-  from {
-    transform: rotate(0deg);
-  }
-  to {
-    transform: rotate(360deg);
-  }
+h1 {
+	font-size: 2.5em;
+	line-height: 1.1;
+	color: #61dafbaa; /* React blue for a nice accent */
+	margin-bottom: 1.5rem;
 }
 
-@media (prefers-reduced-motion: no-preference) {
-  a:nth-of-type(2) .logo {
-    animation: logo-spin infinite 20s linear;
-  }
+/* Table Styling */
+table {
+	width: 100%;
+	border-collapse: collapse; /* Removes space between cell borders */
+	margin-top: 2rem;
+	font-size: 1.1em;
 }
 
-.card {
-  padding: 2em;
+thead {
+	background-color: #61dafbaa; /* Header background */
+	color: #242424; /* Dark text on light header */
 }
 
-.read-the-docs {
-  color: #888;
+th,
+td {
+	padding: 12px 15px;
+	text-align: left;
+	border-bottom: 1px solid #444; /* Horizontal lines for rows */
+}
+
+th {
+	font-weight: 600;
+}
+
+/* Alternating Row Colors */
+tbody tr:nth-of-type(even) {
+	background-color: #3a3a3a;
+}
+
+tbody tr:hover {
+	background-color: #4a4a4a; /* Highlight row on hover */
+}
+
+/* Specific Column Alignment */
+td:first-child,
+th:first-child {
+	text-align: center; /* Center the Rank column */
+	width: 80px;
+}
+
+td:nth-child(3),
+th:nth-child(3),
+td:nth-child(4),
+th:nth-child(4) {
+	text-align: right; /* Right-align the numeric columns */
+}
+
+/* Error Message Styling */
+.error {
+	color: #ff6b6b;
+	font-size: 1.2em;
+	font-weight: bold;
+}
+
+.drafted {
+	text-decoration: line-through;
+	color: #666; /* Fades the text out a bit */
 }
