@@ -5,70 +5,73 @@ import sys
 
 # Command-line argument parsing
 parser = argparse.ArgumentParser(description="Preprocess fantasy football stats by year")
-parser.add_argument("--year", type=int, required=True, help="Season year to process")
+parser.add_argument("year", type=int, help="Season year to process")
 
 args = parser.parse_args()
 
 year = args.year
-csv = os.path.join('data', f'{year}playerstats.csv')
 
-if not os.path.exists(csv):
-    print(f"Error: Input file not found at '{csv}'")
+fantasy_csv = os.path.join('data', f'{year}playerstats.csv')
+
+if not os.path.exists(fantasy_csv):
+    print(f"Error: Input file not found at '{fantasy_csv}'")
     print("Please make sure that you have scraped the data before preprocessing it")
     sys.exit(1)
 
-df = pd.read_csv(csv)
+fantasy_df = pd.read_csv(fantasy_csv)
+
+# Keeping for backwards compatibility
+rename_mapping = {
+    'Tm': 'Team',
+    'Games_G': 'GamesPlayed',
+    'Games_GS': 'GamesStarted',
+    'Passing_Cmp': 'PassCmp',
+    'Passing_Att': 'PassAtt',
+    'Passing_Yds': 'PassYds',
+    'Passing_TD': 'PassTD',
+    'Passing_Int': 'PassInt',
+    'Rushing_Att': 'RushAtt',
+    'Rushing_Yds': 'RushYds',
+    'Rushing_Y/A': 'RushYdsPerAtt',
+    'Rushing_TD': 'RushTD',
+    'Receiving_Tgt': 'Targets',
+    'Receiving_Rec': 'Receptions',
+    'Receiving_Yds': 'RecYds',
+    'Receiving_Y/R': 'RecYdsPerReception',
+    'Receiving_TD': 'RecTD',
+    'Fumbles_Fmb': 'Fumbles',
+    'Fumbles_FL': 'FumblesLost',
+    'Scoring_TD': 'TotalTD',
+    'Scoring_2PM': 'TwoPtConvMade',
+    'Scoring_2PP': 'TwoPtConvPassing',
+    'Fantasy_FantPt': 'FantasyPts',
+    'Fantasy_PPR': 'FantasyPtsPPR',
+    'Fantasy_DKPt': 'FantasyPtsDraftKings',
+    'Fantasy_FDPt': 'FantasyPtsFanDuel',
+    'Fantasy_VBD': 'VBD',
+    'Fantasy_PosRank': 'PosRank',
+    'Fantasy_OvRank': 'OverallRank',
+}
+
+fantasy_df.rename(columns=rename_mapping, inplace=True)
 
 
-# Remove the first column
-df = df.iloc[:, 1:]
-
-
-# Renaming of columns
-df.columns = ['Player', 'Team', 'FantPos', 'Age', 'GamesPlayed', 'GamesStarted', 
-              'PassCmp', 'PassAtt', 'PassYds', 'PassTD', 'PassInt',
-              'RushAtt', 'RushYds', 'RushYdsPerAtt', 'RushTD',
-              'Targets', 'Receptions', 'RecYds', 'RecYdsPerReception', 'RecTD',
-              'Fumbles', 'FumblesLost',
-              'TotalTD', 'TwoPtConvMade', 'TwoPtConvPassing',
-              'FantasyPts', 'FantasyPtsPPR', 'FantasyPtsDraftKings', 'FantasyPtsFanDuel', 'VBD', 'PosRank', 'OverallRank',
-              'Year']
-
-
-# Add column if player was selected to Pro Bowl/First Team All-Pro
-df['SelectedToProBowl'] = 0
-df['FirstTeamAllPro'] = 0
-
-for i, player in enumerate(df['Player']):
-    # Check if player name ends with +
-    if player.endswith('+'):
-        player = player[:-1]
-        df.at[i, 'FirstTeamAllPro'] = 1
-    
-    # Chec if player name ends with *
-    if player.endswith('*'):
-        player = player[:-1]
-        df.at[i, 'SelectedToProBowl'] = 1
-
-    df.at[i, 'Player'] = player
-
-
-# One hot encode the 'Team' column
-df = pd.get_dummies(df, columns=['Team'], prefix='Team', drop_first=True)
+# # One hot encode the 'Team' column
+# fantasy_df = pd.get_dummies(fantasy_df, columns=['Team'], prefix='Team', drop_first=True)
 
 # Replace NAN in FantasyPts
-df['FantasyPts'] = df['FantasyPts'].fillna(0)
+fantasy_df['FantasyPts'] = fantasy_df['FantasyPts'].fillna(0)
 # Replace NAN in FantasyPtrPPR
-df['FantasyPtsPPR'] = df['FantasyPtsPPR'].fillna(0)
+fantasy_df['FantasyPtsPPR'] = fantasy_df['FantasyPtsPPR'].fillna(0)
 # Replace NAN in FantasyPtsDraftKings
-df['FantasyPtsDraftKings'] = df['FantasyPtsDraftKings'].fillna(0)
+fantasy_df['FantasyPtsDraftKings'] = fantasy_df['FantasyPtsDraftKings'].fillna(0)
 # Replace NAN in FantasyPtsFanDuel
-df['FantasyPtsFanDuel'] = df['FantasyPtsFanDuel'].fillna(0)
+fantasy_df['FantasyPtsFanDuel'] = fantasy_df['FantasyPtsFanDuel'].fillna(0)
 
 
 # Split data frame into 4 sub data frames based on position
 dfs = {}
-for pos, subdf in df.groupby('FantPos'):
+for pos, subdf in fantasy_df.groupby('FantPos'):
     # Considering FBs and RBs as the same position
     if pos in ['RB', 'FB']:
         dfs.setdefault('RB_FB', []).append(subdf)

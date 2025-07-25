@@ -86,8 +86,8 @@ def extract_college_career_stats(url):
 
 
 
-parser = argparse.ArgumentParser(description="Preprocess rookie stats by year")
-parser.add_argument("year", type=int, help="Season year to process")
+parser = argparse.ArgumentParser(description="Scrape rookie stats by year")
+parser.add_argument("year", type=int, help="Season year to scrape")
 
 args = parser.parse_args()
 
