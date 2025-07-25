@@ -1,53 +1,14 @@
 # fbml
-
-Current Plan - 4 positional ML models
-
-RB/FB model:
-- rush attempts per game
-- rush yards per game
-- rush tds per game
-- targets per game
-- recs per game
-- rec yards per game
-- rec tds per game
-
-WR model:
-- targets per game
-- recs per game
-- rec yards per game
-- rec tds per game
-
-TE model:
-- targets per game
-- recs per game
-- rec yards per game
-- rec tds per game
-
-QB model:
-- pass attempts per game
-- passing yds per game
-- passing tds per game
-- interceptions per game
-- rush yds per game
-- rush tds per game
+## How to use:
+1. Scrape current/rookie player data by running scrape_data.ipynb and scrape_rookie_data.py, respectively. 
+2. Process scraped current/rookie player data by running preprocess_data.py and preprocess_rookie_data.py, respectively.
+3. (Optional) The models are already trained as specified in the respective .ipynb file. If retraining is desired, the years and attributes to use can be changed in the .ipynb file.
+4. Create the projections list by running create_projections.ipynb
 
 Benchmark Metrics:
 - R² at least 0.3–0.5
 - RMSE between 40-60
 - MAE between 30-50
-
-Rookie QB Model:
-- Games Played
-- Completion Percentage
-- passing yds per game
-- passing tds per game
-- interceptions per game
-
-Rookie RB/FB Model:
-- Games Played
-- rush attempts per game
-- rush yards per game
-- rush tds per game
 
 # TODO List:
 - fix rookie qb model overfitting (fixing all rookie models in general lol)
