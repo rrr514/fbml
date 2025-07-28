@@ -206,3 +206,4 @@ def compute_rookie_wr_features(df):
 
     df['RecTDsPerGame'] = df['Coll_rec_td'] / df['Coll_games'].replace(0, pd.NA)
     df['RecTDsPerGame'] = df['RecTDsPerGame'].fillna(0)
+
