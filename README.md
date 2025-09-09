@@ -10,6 +10,8 @@ Benchmark Metrics:
 - RMSE between 40-60
 - MAE between 30-50
 
-# TODO List:
-- fix rookie qb model overfitting (fixing all rookie models in general lol)
-- eventually add more training data for all models
+# TODO List/Future Ideas:
+- Fix rookie qb model overfitting (Improve all rookie models in general lol)
+- Eventually add more training data for all models
+- Switch to a different type of model (e.g. RandomForest)
+- Use more advanced stats in training (e.g. YAC, Y/Route Run, etc.)
